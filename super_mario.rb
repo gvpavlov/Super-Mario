@@ -1,5 +1,6 @@
-require "gosu"
+require 'gosu'
 require 'mario'
+#require 'map'
 
 class Game < Gosu::Window
   def initialize
@@ -9,6 +10,7 @@ class Game < Gosu::Window
   end
 
   def update
+    close if button_down? Gosu::KbEscape
     @mario.update
   end
 

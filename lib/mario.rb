@@ -1,15 +1,13 @@
-require "gosu"
-
 class Mario
   def initialize window
     @window = window
     #images
     @width, @height = 102, 137
     @idle = Gosu::Image.new @window, File.dirname(__FILE__) +
-                                     "/images/mario-idle.png",
+                                     "/media/mario-idle.png",
                             false
     @move = Gosu::Image.load_tiles @window, File.dirname(__FILE__) +
-                                            "/images/mario.png",
+                                            "/media/mario.png",
                                    @width, @height, true
     # center image
     @x = @window.width/2 - @width/2
