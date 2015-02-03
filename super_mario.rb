@@ -4,7 +4,7 @@ require 'mario'
 
 class Game < Gosu::Window
   def initialize
-    super width = 800, height = 600, fullscreen = false
+    super 300, 360, false
     self.caption = "Super Mario"
     @background = Gosu::Image.new(self, File.dirname(__FILE__) +
                                             "/lib/media/background.png", true)
@@ -13,21 +13,23 @@ class Game < Gosu::Window
                                             "/lib/media/music.ogg")
     @mario = Mario.new self
     @start_time = Time.now
+    @frame = 0
   end
 
   def update
+    @frame += 1
     close if button_down? Gosu::KbEscape
-    @mario.update
     @song.play unless @song.playing?
+    @mario.update @frame
   end
 
   def draw
     @background.draw(0, 0, 0)
+    @font.draw("#{time}", 0, 0, 100, 1.0, 1.0, 0xff808080)
     @mario.draw
-    @font.draw("#{elapsed}", 0, 0, 100, 1.0, 1.0, 0xff808080)
   end
 
-  def elapsed
+  def time
     "Elapsed time: %0.2d:%0.2d" % [(Time.now - @start_time) / 60, (Time.now - @start_time) % 60]
   end
 end
