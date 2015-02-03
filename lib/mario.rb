@@ -39,4 +39,16 @@ class Mario
       image.draw @x + @width, @y, 1, -1, 1
     end
   end
+
+  def grow
+    @width, @height = 35, 60
+    @mario = Gosu::Image.load_tiles @window, File.dirname(__FILE__) +
+                                            "/media/big_mario.png",
+                                   @width, @height, true
+  end
+
+  def death
+    @mario = Gosu::Image.new(@window, File.dirname(__FILE__) +
+                                  "/media/mario_dies.png", true)
+  end
 end
