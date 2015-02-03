@@ -2,24 +2,22 @@ class Mario
   def initialize window
     @window = window
     #images
-    @width, @height = 102, 137
-    @idle = Gosu::Image.new @window, File.dirname(__FILE__) +
-                                     "/media/mario-idle.png",
-                            false
-    @move = Gosu::Image.load_tiles @window, File.dirname(__FILE__) +
-                                            "/media/mario.png",
+    @width, @height = 35, 30
+    @mario = Gosu::Image.load_tiles @window, File.dirname(__FILE__) +
+                                            "/media/little_mario.png",
                                    @width, @height, true
     # center image
     @x = @window.width/2 - @width/2
     @y = @window.height/2 - @height/2
     #direction and movement
     @direction = :right
-    @frame = 0
+    @f = @frame = 0
     @moving = false
   end
 
   def update
-    @frame += 1
+    @f += 1
+    @frame += 1 if @f % 11 == 0
     @moving = false
     if @window.button_down? Gosu::KbLeft
       @direction = :left
@@ -33,8 +31,8 @@ class Mario
   end
 
   def draw
-    f = @frame % 6
-    image = @moving ? @move[f] : @idle
+    f = @frame % 3
+    image = @moving ? @mario[f] : @mario[5]
     if @direction == :right
       image.draw @x, @y, 1
     else
