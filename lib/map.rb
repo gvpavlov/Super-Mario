@@ -59,11 +59,12 @@ class Map
     end
   end
 
-  def obsticle? x, y
+  # Reversed coordinates because they are read from the file.
+  def obsticle? y, x
     if @tiles[x / 30][y / 30] == '.'
-      true
-    else
       false
+    else
+      true
     end
   end
 end

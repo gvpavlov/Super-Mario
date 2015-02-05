@@ -12,7 +12,7 @@ class Game < Gosu::Window
     @song = Gosu::Song.new(self, File.dirname(__FILE__) +
                                             "/lib/media/music.ogg")
     @x = 0
-    @mario = Mario.new(self, 300, 150)
+    @mario = Mario.new(self, 600, 300)
     @map = Map.new self
     @start_time = Time.now
     @frame = 0
@@ -30,13 +30,13 @@ class Game < Gosu::Window
 
   def draw
     @background.draw(0, 0, 0)
-    @font.draw("#{time}", 0, 0, 100, 1.0, 1.0, 0xff808080)
+    @font.draw("#{time}", 40, 0, 100, 1.0, 1.0, 0xff808080)
     @map.draw(@x)
     @mario.draw(@x)
   end
 
   def time
-    "Elapsed time: %0.2d:%0.2d" % [(Time.now - @start_time) / 60,
+    "Time: %0.2d:%0.2d" % [(Time.now - @start_time) / 60,
                                     (Time.now - @start_time) % 60]
   end
 end

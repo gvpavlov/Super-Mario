@@ -1,8 +1,11 @@
+require 'map'
+
 class Mario
   attr_reader :x, :y
 
   def initialize window, x, y
     @window = window
+    @map = Map.new window
     @width, @height = 35, 30
     @mario = Gosu::Image.load_tiles @window, File.dirname(__FILE__) +
                                             "/media/little_mario.png",
@@ -19,11 +22,11 @@ class Mario
     if @window.button_down? Gosu::KbLeft
       @direction = :left
       @moving = true
-      @x += -5
+      @x += -1 unless @map.obsticle?(@x + 4, @y) 
     elsif @window.button_down? Gosu::KbRight
       @direction = :right
       @moving = true
-      @x += 5
+      @x += 1 unless @map.obsticle?(@x + @width - 4, @y)
     end
   end
 
