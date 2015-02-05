@@ -1,6 +1,6 @@
 class Mario
   attr_reader :x, :y
-  
+
   def initialize window, x, y
     @window = window
     @width, @height = 35, 30
@@ -27,13 +27,13 @@ class Mario
     end
   end
 
-  def draw screen_x, screen_y
+  def draw screen_x
     f = @frame % 3
     image = @moving ? @mario[f] : @mario[5]
     if @direction == :right
-      image.draw(@x - screen_x, @y - screen_y, 1)
+      image.draw(@x - screen_x, @y, 1)
     else
-      image.draw(@x + @width - screen_x, @y - screen_y, 1, -1, 1)
+      image.draw(@x + @width - screen_x, @y, 1, -1, 1)
     end
   end
 
