@@ -12,8 +12,8 @@ class Game < Gosu::Window
     @song = Gosu::Song.new(self, File.dirname(__FILE__) +
                                             "/lib/media/music.ogg")
     @x = 0
-    @mario = Mario.new(self, 600, 300)
     @map = Map.new self
+    @mario = Mario.new(@map, self, 810, 300)
     @start_time = Time.now
     @frame = 0
   end
@@ -21,12 +21,18 @@ class Game < Gosu::Window
   def update
     @frame += 1
     close if button_down? Gosu::KbEscape
-    @song.play unless @song.playing?
+    #@song.play unless @song.playing?
     @map.update @frame
     @mario.update @frame
     # Camera 'follows' mario, but doesn't exceed map boundaries.
     @x = [[@mario.x - @width / 2, 0].max, @map.width * 30 - @width].min
   end
+
+  def button_down id
+    if id == Gosu::KbUp
+      @mario.velocity = 15
+    end
+  end   
 
   def draw
     @background.draw(0, 0, 0)

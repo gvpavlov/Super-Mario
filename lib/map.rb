@@ -1,5 +1,5 @@
 class Map
-  attr_reader :width, :height
+  attr_reader :width, :height, :tiles
 
   def initialize window
     @block = Gosu::Image.new(window, File.dirname(__FILE__) +
@@ -20,9 +20,14 @@ class Map
     @frame = 0
     # read map from file
     # remove the \n regerated through #readlines
-    @tiles = File.readlines("lib/media/map.txt").map { |line| line.chop }
-    @height = @tiles.size
-    @width = @tiles[0].size
+    lines = File.readlines("lib/media/map.txt").map { |line| line.strip }
+    @height = lines.size
+    @width = lines[0].size
+    @tiles = Array.new(@width) do |x|
+      Array.new(@height) do |y|
+        lines[y][x]
+      end
+    end
   end
 
   def update frame
@@ -42,7 +47,7 @@ class Map
   def draw screen_x
     @height.times do |y|
       @width.times do |x|
-        case tile = @tiles[y][x]
+        case tiles[x][y]
           when '='
             @ground.draw(x * 30 - screen_x, y * 30, 1)
           when '*'
@@ -53,15 +58,17 @@ class Map
             draw_coin(x, y, screen_x)
           when '|'
             @pipe.draw(x * 30 - screen_x, y * 30, 1)
-          else nil
-        end
+        end        
       end
     end
   end
 
   # Reversed coordinates because they are read from the file.
-  def obsticle? y, x
+  def obsticle? x, y
     if @tiles[x / 30][y / 30] == '.'
+      false
+    elsif @tiles[x / 30][y / 30] == '$'
+      @tiles[x / 30][y / 30] = '.'
       false
     else
       true
