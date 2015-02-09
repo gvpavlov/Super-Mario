@@ -8,6 +8,8 @@ class Map
                                             "/media/ground.png", true)
     @pipe = Gosu::Image.new(window, File.dirname(__FILE__) +
                                             "/media/pipe.png", true)
+    @pipe_lower = Gosu::Image.new(window, File.dirname(__FILE__) +
+                                            "/media/pipe_lower.png", true)
     @mushroom = Gosu::Image.new(window, File.dirname(__FILE__) +
                                             "/media/mushroom.png", true)
     @question_block = Gosu::Image.load_tiles(window, File.dirname(__FILE__) +
@@ -58,6 +60,8 @@ class Map
             draw_coin(x, y, screen_x)
           when '|'
             @pipe.draw(x * 30 - screen_x, y * 30, 1)
+          when '/'
+            @pipe_lower.draw(x * 30 - screen_x, y * 30, 1)
         end        
       end
     end
