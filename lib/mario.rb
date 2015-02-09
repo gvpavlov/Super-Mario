@@ -1,19 +1,12 @@
-require 'map'
+require 'unit'
 
-class Mario
-  attr_reader :x, :y, :velocity
-
+class Mario < Unit
   def initialize window, x, y, map
-    @window = window
-    @map = map
-    @width, @height = 35, 30
+    super(window, x, y, map, 35, 30)
     @mario = Gosu::Image.load_tiles(@window, File.dirname(__FILE__) +
                                       "/media/little_mario.png",
                                       @width, @height, true)
-    @x, @y = x, y
-    @direction = :right
     @frame = 0
-    @velocity = 0
     @moving = false
   end
 
@@ -33,20 +26,12 @@ class Mario
   end
 
   def jump
-    @velocity -= 1
+    move_y
     if @velocity > 0
       @velocity.times do
         if fits?(0, -1)  
           @y -= 1 
         else
-          @velocity = 0 
-        end
-      end
-    elsif @velocity < 0
-      (-@velocity).times do 
-        if fits?(0, 1) 
-          @y += 1 
-        else 
           @velocity = 0 
         end
       end
@@ -57,14 +42,6 @@ class Mario
     if fits?(0, 1) or fits?(0, -1) 
       @velocity = 15 unless @velocity != 0
     end
-  end
-
-  # Checks the top and bottom center for collisions.
-  def fits? offset_x, offset_y
-    (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + 2)) and
-    (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + @height - 1)) and
-    (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + 2)) and
-    (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + @height - 1))
   end
 
   def draw screen_x
