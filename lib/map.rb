@@ -1,5 +1,5 @@
 class Map
-  attr_reader :width, :height, :tiles
+  attr_reader :width, :height, :tiles, :score
 
   def initialize window
     @block = Gosu::Image.new(window, File.dirname(__FILE__) +
@@ -16,7 +16,7 @@ class Map
     @coin = Gosu::Image.load_tiles(window, File.dirname(__FILE__) +
                                               "/media/coin.png",
                                                 35, 30, true)
-    @coins = []
+    @score = 0
     @frame = 0
     # read map from file
     # remove the \n regerated through #readlines
@@ -63,15 +63,19 @@ class Map
     end
   end
 
-  # Reversed coordinates because they are read from the file.
   def obsticle? x, y
     if @tiles[x / 30][y / 30] == '.'
       false
     elsif @tiles[x / 30][y / 30] == '$'
-      @tiles[x / 30][y / 30] = '.'
+      collect_coin(x,y)
       false
     else
       true
     end
+  end
+
+  def collect_coin x, y
+    @score += 100
+    @tiles[x / 30][y / 30] = '.'
   end
 end

@@ -20,8 +20,7 @@ class Game < Gosu::Window
 
   def update
     @frame += 1
-    close if button_down? Gosu::KbEscape
-    #@song.play unless @song.playing?
+    @song.play unless @song.playing?
     @map.update @frame
     @mario.update @frame
     # Camera 'follows' mario, but doesn't exceed map boundaries.
@@ -29,14 +28,18 @@ class Game < Gosu::Window
   end
 
   def button_down id
-    if id == Gosu::KbUp
-      @mario.velocity = 15
+    case id
+      when Gosu::KbUp 
+        @mario.try_jumping
+      when Gosu::KbEscape
+        close
     end
   end   
 
   def draw
     @background.draw(0, 0, 0)
     @font.draw("#{time}", 40, 0, 100, 1.0, 1.0, 0xff808080)
+    @font.draw(@map.score, 810, 0, 100, 1.0, 1.0, 0xff808080)
     @map.draw(@x)
     @mario.draw(@x)
   end

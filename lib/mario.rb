@@ -54,15 +54,18 @@ class Mario
     end
   end
 
+  def try_jumping
+    if fits?(0, 1) or fits?(0, -1)
+      @velocity = 15
+    end
+  end
+
   # Checks the top and bottom center for collisions.
   def fits? offset_x, offset_y
-    if @direction == :left
-      (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + 5)) and
-      (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + @height - 5))
-    else
-      (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + 5)) and
-      (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + @height - 5))
-    end
+    (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + 5)) and
+    (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + @height - 5)) and
+    (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + 5)) and
+    (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + @height - 5))
   end
 
   def draw screen_x
