@@ -1,10 +1,9 @@
 require 'map'
 
 class Mario
-  attr_reader :x, :y
-  attr_accessor :velocity
+  attr_reader :x, :y, :velocity
 
-  def initialize map, window, x, y
+  def initialize window, x, y, map
     @window = window
     @map = map
     @width, @height = 35, 30
@@ -19,7 +18,7 @@ class Mario
   end
 
   def update frame
-    @frame += 1 if frame % 11 == 0
+    @frame += 1 if frame % 5 == 0
     @moving = false
     if @window.button_down? Gosu::KbLeft
       @direction = :left
@@ -55,17 +54,17 @@ class Mario
   end
 
   def try_jumping
-    if fits?(0, 1) or fits?(0, -1)
-      @velocity = 15
+    if fits?(0, 1) or fits?(0, -1) 
+      @velocity = 15 unless @velocity != 0
     end
   end
 
   # Checks the top and bottom center for collisions.
   def fits? offset_x, offset_y
-    (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + 5)) and
-    (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + @height - 5)) and
-    (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + 5)) and
-    (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + @height - 5))
+    (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + 2)) and
+    (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + @height - 1)) and
+    (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + 2)) and
+    (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + @height - 1))
   end
 
   def draw screen_x

@@ -13,7 +13,7 @@ class Game < Gosu::Window
                                             "/lib/media/music.ogg")
     @x = 0
     @map = Map.new self
-    @mario = Mario.new(@map, self, 810, 300)
+    @mario = Mario.new(self, 810, 300, @map)
     @start_time = Time.now
     @frame = 0
   end
@@ -39,7 +39,7 @@ class Game < Gosu::Window
   def draw
     @background.draw(0, 0, 0)
     @font.draw("#{time}", 40, 0, 100, 1.0, 1.0, 0xff808080)
-    @font.draw(@map.score, 810, 0, 100, 1.0, 1.0, 0xff808080)
+    @font.draw("Score: " + @map.score.to_s, 760, 0, 100, 1.0, 1.0, 0xff808080)
     @map.draw(@x)
     @mario.draw(@x)
   end
