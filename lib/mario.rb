@@ -2,7 +2,7 @@ require 'unit'
 
 class Mario < Unit
   def initialize window, x, y, map
-    super(window, x, y, map, 35, 30)
+    super(window, x, y, map)
     @mario = Gosu::Image.load_tiles(@window, File.dirname(__FILE__) +
                                       "/media/little_mario.png",
                                       @width, @height, true)
@@ -10,8 +10,8 @@ class Mario < Unit
     @moving = false
   end
 
-  def update frame
-    @frame += 1 if frame % 5 == 0
+  def update
+    @frame += 1 if @window.frame % 5 == 0
     @moving = false
     if @window.button_down? Gosu::KbLeft
       @direction = :left
@@ -27,13 +27,10 @@ class Mario < Unit
 
   def jump
     move_y
+    
     if @velocity > 0
       @velocity.times do
-        if fits?(0, -1)  
-          @y -= 1 
-        else
-          @velocity = 0 
-        end
+        if fits?(0, -1) then @y -= 1 else @velocity = 0 end
       end
     end
   end
@@ -44,7 +41,7 @@ class Mario < Unit
     end
   end
 
-  def draw screen_x
+  def draw
     f = @frame % 3
     if @velocity != 0
       image = @mario[4]
@@ -52,9 +49,9 @@ class Mario < Unit
       image = @moving ? @mario[f] : @mario[5]
     end
     if @direction == :right
-      image.draw(@x - screen_x, @y, 1)
+      image.draw(@x - @window.x, @y, 1)
     else
-      image.draw(@x + @width - screen_x, @y, 1, -1, 1)
+      image.draw(@x + @width - @window.x, @y, 1, -1, 1)
     end
   end
 

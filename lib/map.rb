@@ -18,6 +18,7 @@ class Map
     @coin = Gosu::Image.load_tiles(window, File.dirname(__FILE__) +
                                               "/media/coin.png",
                                                 35, 30, true)
+    @window = window
     @score = 0
     @frame = 0
     # read map from file
@@ -32,36 +33,36 @@ class Map
     end
   end
 
-  def update frame
-    @frame += 1 if frame % 20 == 0
+  def update
+    @frame += 1 if @window.frame % 20 == 0
   end
 
-  def draw_coin x, y, screen_x
+  def draw_coin x, y
     f = @frame % 3
-    @coin[f].draw(x * 30 - screen_x - 2.5, y * 30, 1)
+    @coin[f].draw(x * 30 - @window.x - 2.5, y * 30, 1)
   end
 
-  def draw_qblock x, y, screen_x
+  def draw_qblock x, y
     f = @frame % 3
-    @question_block[f].draw(x * 30 - screen_x, y * 30, 1)
+    @question_block[f].draw(x * 30 - @window.x, y * 30, 1)
   end
 
-  def draw screen_x
+  def draw
     @height.times do |y|
       @width.times do |x|
         case tiles[x][y]
           when '='
-            @ground.draw(x * 30 - screen_x, y * 30, 1)
+            @ground.draw(x * 30 - @window.x, y * 30, 1)
           when '*'
-            @block.draw(x * 30 - screen_x, y * 30, 1)
+            @block.draw(x * 30 - @window.x, y * 30, 1)
           when '?'
-            draw_qblock(x, y, screen_x)
+            draw_qblock(x, y)
           when '$'
-            draw_coin(x, y, screen_x)
+            draw_coin(x, y)
           when '|'
-            @pipe.draw(x * 30 - screen_x, y * 30, 1)
+            @pipe.draw(x * 30 - @window.x, y * 30, 1)
           when '/'
-            @pipe_lower.draw(x * 30 - screen_x, y * 30, 1)
+            @pipe_lower.draw(x * 30 - @window.x, y * 30, 1)
         end        
       end
     end
