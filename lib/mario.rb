@@ -40,7 +40,7 @@ class Mario < Unit
 
   def try_jumping
     if fits?(0, 1) or fits?(0, -1) 
-      @velocity = 15 unless @velocity != 0
+      @velocity = 17 unless @velocity != 0
     end
   end
 

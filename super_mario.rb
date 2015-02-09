@@ -4,7 +4,7 @@ require 'map'
 
 class Game < Gosu::Window
   def initialize
-    super @width = 900, @height = 420, false
+    super @width = 900, @height = 480, false
     self.caption = "Super Mario"
     @background = Gosu::Image.new(self, File.dirname(__FILE__) +
                                             "/lib/media/background.png", true)
@@ -13,7 +13,7 @@ class Game < Gosu::Window
                                             "/lib/media/music.ogg")
     @x = 0
     @map = Map.new self
-    @mario = Mario.new(self, 810, 300, @map)
+    @mario = Mario.new(self, 90, 300, @map)
     @start_time = Time.now
     @frame = 0
   end
