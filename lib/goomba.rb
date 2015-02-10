@@ -13,9 +13,17 @@ class Goomba < Unit
     @frame += 1 if @window.frame % 5 == 0
     case @direction
       when :left
-        if fits?(-1, 0) then @x -= 1 else @direction = :right end
+        if fits?(-1, 0) 
+          @x -= 1 
+        else 
+          @direction = :right 
+        end
       when :right
-        if fits?(1, 0) then @x += 1 else @direction = :left end
+        if fits?(1, 0) 
+          @x += 1 
+        else 
+          @direction = :left 
+        end
     end
     move_y
   end
