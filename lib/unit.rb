@@ -24,8 +24,10 @@ class Unit
   # Checks for collisions.
   def fits? offset_x, offset_y
     (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + 2)) and
+    (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + @height / 2 - 1)) and
     (not @map.obsticle?(@x + offset_x + 5, @y + offset_y + @height - 1)) and
     (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + 2)) and
+    (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + @height / 2 - 1)) and
     (not @map.obsticle?(@x + offset_x - 6 + @width, @y + offset_y + @height - 1))
   end
 
