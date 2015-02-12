@@ -2,6 +2,7 @@ require 'gosu'
 require 'mario'
 require 'map'
 require 'goomba'
+require 'mushroom'
 
 class Game < Gosu::Window
   attr_reader :x, :frame
@@ -20,6 +21,7 @@ class Game < Gosu::Window
     @start_time = Time.now
     @frame = 0
     fill_goombas
+    @mushroom = Mushroom.new(self, 240, 180, @map)
   end
 
   def fill_goombas
@@ -34,6 +36,7 @@ class Game < Gosu::Window
     @map.update
     @mario.update
     @goombas.each { |g| g.update }
+    @mushroom.update
     # Camera 'follows' mario, but doesn't exceed map boundaries.
     @x = [[@mario.x - @width / 2, 0].max, @map.width * 30 - @width].min
   end
@@ -54,6 +57,7 @@ class Game < Gosu::Window
     @map.draw
     @mario.draw
     @goombas.each { |g| g.draw }
+    @mushroom.draw
   end
 
   def time

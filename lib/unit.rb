@@ -12,6 +12,24 @@ class Unit
     @velocity = 0
   end
 
+  def update
+    case @direction
+      when :left
+        if fits?(-1, 0) 
+          @x -= 1 
+        else 
+          @direction = :right 
+        end
+      when :right
+        if fits?(1, 0) 
+          @x += 1 
+        else 
+          @direction = :left 
+        end
+    end
+    move_y
+  end
+
   def move_y
     @velocity -= 1
     if @velocity < 0
