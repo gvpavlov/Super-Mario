@@ -18,6 +18,8 @@ class Map
     @coin = Gosu::Image.load_tiles(window, File.dirname(__FILE__) +
                                               "/media/coin.png",
                                                 35, 30, true)
+    @collect_coin_sound = Gosu::Sample.new(window, File.dirname(__FILE__) +
+                                            "/media/collect_coin_sound.ogg")
     @window = window
     @score = 0
     @frame = 0
@@ -80,6 +82,7 @@ class Map
   end
 
   def collect_coin x, y
+    @collect_coin_sound.play 0.5
     @score += 100
     @tiles[x / 30][y / 30] = '.'
   end

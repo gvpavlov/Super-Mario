@@ -2,10 +2,12 @@ require 'unit'
 
 class Mario < Unit
   def initialize window, x, y, map
-    super(window, x, y, map)
+    super(window, x, y, map, 35, 60)
     @mario = Gosu::Image.load_tiles(@window, File.dirname(__FILE__) +
-                                      "/media/little_mario.png",
+                                      "/media/big_mario.png",
                                       @width, @height, true)
+    @jump_sound = Gosu::Sample.new(@window, File.dirname(__FILE__) +
+                                            "/media/jump_sound.ogg")
     @frame = 0
     @moving = false
   end
@@ -40,7 +42,8 @@ class Mario < Unit
   end
 
   def try_jumping
-    if fits?(0, 1) or fits?(0, -1) 
+    if fits?(0, 1) or fits?(0, -1)
+      @jump_sound.play 0.2
       @velocity = 17 unless @velocity != 0
     end
   end
