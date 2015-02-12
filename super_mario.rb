@@ -32,7 +32,7 @@ class Game < Gosu::Window
 
   def update
     @frame += 1
-    @song.play unless @song.playing?
+    @song.play(true)
     @map.update
     @mario.update
     @goombas.each { |g| g.update }
