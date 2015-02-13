@@ -1,7 +1,7 @@
 require 'gosu'
 require 'mario'
 require 'map'
-require 'goomba'
+require 'gui/goomba_gui'
 require 'mushroom'
 
 class Game < Gosu::Window
