@@ -1,4 +1,4 @@
-require 'map'
+require 'core/map'
 
 class Unit
   attr_accessor :x, :y, :velocity
