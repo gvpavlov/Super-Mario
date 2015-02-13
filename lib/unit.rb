@@ -34,7 +34,11 @@ class Unit
     @velocity -= 1
     if @velocity < 0
       (-@velocity).times do 
-        if fits?(0, 1) then @y += 1 else @velocity = 0 end
+        if fits?(0, 1) 
+          @y += 1 
+        else 
+          @velocity = 0
+        end
       end
     end
   end

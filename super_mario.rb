@@ -5,7 +5,7 @@ require 'goomba'
 require 'mushroom'
 
 class Game < Gosu::Window
-  attr_reader :x, :frame
+  attr_reader :x, :frame, :mushrooms, :goombas
 
   def initialize
     super @width = 900, @height = 480, false
@@ -20,11 +20,12 @@ class Game < Gosu::Window
     @mario = Mario.new(self, 90, 300, @map)
     @start_time = Time.now
     @frame = 0
-    fill_goombas
-    @mushroom = Mushroom.new(self, 240, 180, @map)
+    fill_units
   end
 
-  def fill_goombas
+  def fill_units
+    @mushrooms = []
+    @mushrooms << Mushroom.new(self, 240, 180, @map)
     @goombas = []
     @goombas << Goomba.new(self, 30, 300, @map)
     @goombas << Goomba.new(self, 240, 150, @map)
@@ -36,7 +37,7 @@ class Game < Gosu::Window
     @map.update
     @mario.update
     @goombas.each { |g| g.update }
-    @mushroom.update
+    @mushrooms.each { |m| m.update }
     # Camera 'follows' mario, but doesn't exceed map boundaries.
     @x = [[@mario.x - @width / 2, 0].max, @map.width * 30 - @width].min
   end
@@ -57,7 +58,7 @@ class Game < Gosu::Window
     @map.draw
     @mario.draw
     @goombas.each { |g| g.draw }
-    @mushroom.draw
+    @mushrooms.each { |m| m.draw }
   end
 
   def time
