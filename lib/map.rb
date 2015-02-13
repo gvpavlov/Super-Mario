@@ -8,6 +8,10 @@ class Map
                                             "/media/ground.png", true)
     @pipe = Gosu::Image.new(window, File.dirname(__FILE__) +
                                             "/media/pipe.png", true)
+    @pole_head = Gosu::Image.new(window, File.dirname(__FILE__) +
+                                            "/media/pole_head.png", true)
+    @pole = Gosu::Image.new(window, File.dirname(__FILE__) +
+                                            "/media/pole_foundation.png", true)
     @pipe_lower = Gosu::Image.new(window, File.dirname(__FILE__) +
                                             "/media/pipe_lower.png", true)
     @mushroom = Gosu::Image.new(window, File.dirname(__FILE__) +
@@ -52,6 +56,10 @@ class Map
             @ground.draw(x * 30 - @window.x, y * 30 - @window.y, 1)
           when '*'
             @block.draw(x * 30 - @window.x, y * 30 - @window.y, 1)
+          when '^'
+            @pole.draw(x * 30 - @window.x, y * 30 - @window.y, 1)
+          when 'o'
+            @pole_head.draw(x * 30 - @window.x, y * 30 - @window.y, 1)
           when '?'
             draw_qblock(x, y, '?')
           when '-'
@@ -88,6 +96,9 @@ class Map
         true
       when '-'
         true
+      when '^'
+        @window.won = true
+        false
       else
         true
     end

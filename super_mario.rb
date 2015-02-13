@@ -6,7 +6,7 @@ require 'mushroom'
 
 class Game < Gosu::Window
   attr_reader :x, :y, :frame, :mario
-  attr_accessor :mushrooms, :goombas
+  attr_accessor :mushrooms, :goombas, :won
 
   def initialize
     super @width = 900, @height = 480, false
@@ -25,6 +25,8 @@ class Game < Gosu::Window
     @frame = 0
     @mushrooms = []
     @goombas = []
+    @won = false
+    @minutes = @seconds = 0
 
     # read map from file
     # remove the \n regerated through #readlines
@@ -57,7 +59,7 @@ class Game < Gosu::Window
   def update
     @frame += 1
     if @mario.dead
-      @song.stop
+      @song.stop if @song.playing?
       @game_over_sound.play(false)
     else
       @song.play(true)
@@ -90,8 +92,14 @@ class Game < Gosu::Window
 
   def draw
     @background.draw(0, 0, 0)
-    @font.draw("#{time}", 40, 0, 100, 1.0, 1.0, 0xff808080)
-    @font.draw("Score: " + @map.score.to_s, 760, 0, 100, 1.0, 1.0, 0xff808080)
+    if @won
+      @font.draw("You've won!", 300, 0, 100, 3, 3, 0xff808080)
+      @font.draw("Score: " + @map.score.to_s, 270, 90, 100, 2, 2, 0xff808080)
+      @font.draw("Time: %0.2d:%0.2d" % [@minute, @seconds], 420, 90, 100, 2, 2, 0xff808080)
+    else
+      @font.draw("#{time}", 40, 0, 100, 1.0, 1.0, 0xff808080)
+      @font.draw("Score: " + @map.score.to_s, 760, 0, 100, 1, 1, 0xff808080)
+    end
     @map.draw
     @mario.draw
     @goombas.each { |goomba| goomba.draw }
@@ -99,8 +107,9 @@ class Game < Gosu::Window
   end
 
   def time
-    "Time: %0.2d:%0.2d" % [(Time.now - @start_time) / 60,
-                                    (Time.now - @start_time) % 60]
+    @minute = (Time.now - @start_time) / 60
+    @seconds = (Time.now - @start_time) % 60
+    "Time: %0.2d:%0.2d" % [@minute, @seconds]
   end
 end
 
