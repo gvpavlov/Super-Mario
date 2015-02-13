@@ -4,8 +4,10 @@
 # Подготовка
 -	За да се може да се стартира играта, изпълнете следните команди:
 
-	$ gem build Super-Mario
-	$ gem install Super-Mario-0.1.gem
+```
+$ gem build Super-Mario
+$ gem install Super-Mario-0.1.gem
+```
 
 - 	За да се стартира
 

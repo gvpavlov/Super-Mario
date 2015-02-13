@@ -12,12 +12,12 @@ class Game < Gosu::Window
     super @width = 900, @height = 480, false
     self.caption = "Super Mario"
     @background = Gosu::Image.new(self, File.dirname(__FILE__) +
-                                            "/lib/media/background.png", true)
+                                            "/media/background.png", true)
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
     @song = Gosu::Song.new(self, File.dirname(__FILE__) +
-                                            "/lib/media/music.ogg")
+                                            "/media/music.ogg")
     @game_over_sound = Gosu::Song.new(self, File.dirname(__FILE__) +
-                                            "/lib/media/game_over_sound.ogg")
+                                            "/media/game_over_sound.ogg")
     @x = 0
     @y = 90
     @map = Map.new self
@@ -30,7 +30,7 @@ class Game < Gosu::Window
 
     # read map from file
     # remove the \n regerated through #readlines
-    lines = File.readlines("lib/media/map.txt").map { |line| line.strip }
+    lines = File.readlines(File.dirname(__FILE__) + "/media/map.txt").map { |line| line.strip }
     @map.height = lines.size
     @map.width = lines[0].size
     @map.tiles = Array.new(@map.width) do |x|

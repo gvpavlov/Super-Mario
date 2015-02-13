@@ -12,6 +12,6 @@ Gem::Specification.new do |game|
     .map { |f| File.basename(f) }
   game.require_paths = ['lib']
   game.license = 'GPLv3'
-  game.add_runtime_dependency 'gosu', '~>0.8.7.2'
-  game.add_development_dependency 'rspec', '~>3.1.0'
+  game.add_runtime_dependency 'gosu', '~>0.8'
+  game.add_development_dependency 'rspec', '~>3.1'
 end
