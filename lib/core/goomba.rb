@@ -1,4 +1,4 @@
-require 'unit'
+require 'core/unit'
 
 class Goomba < Unit
   attr_accessor :dead, :time_of_death

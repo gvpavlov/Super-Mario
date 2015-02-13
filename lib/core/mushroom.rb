@@ -1,4 +1,4 @@
-require 'unit'
+require 'core/unit'
 
 class Mushroom < Unit
   attr_accessor :active
