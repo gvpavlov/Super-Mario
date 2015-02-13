@@ -87,8 +87,9 @@ class Mario < Unit
 
   def mushroom
     @window.mushrooms.each do |mushroom|
-      if touches?(mushroom.x, mushroom.y)
+      if touches?(mushroom.x, mushroom.y) and mushroom.active
         grow
+        @map.score += 200
         @window.mushrooms.delete(mushroom)
       end
     end
@@ -98,6 +99,7 @@ class Mario < Unit
     @window.goombas.each do |goomba|
       if touches?(goomba.x, goomba.y) and (not goomba.dead)
         if (@y + @height) == goomba.y
+          @map.score += 300
           goomba.dead = true
           goomba.time_of_death = Time.now
         elsif @height == 60

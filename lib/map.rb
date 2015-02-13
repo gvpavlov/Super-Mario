@@ -23,7 +23,6 @@ class Map
     @window = window
     @score = 0
     @frame = 0
-    
     @tiles = [[]]
   end
 
@@ -36,8 +35,12 @@ class Map
     @coin[f].draw(x * 30 - @window.x - 2.5, y * 30 - @window.y, 1)
   end
 
-  def draw_qblock x, y
-    f = @frame % 3
+  def draw_qblock x, y, s
+    if s == '?'
+      f = @frame % 3
+    else
+      f = 3
+    end
     @question_block[f].draw(x * 30 - @window.x, y * 30 - @window.y, 1)
   end
 
@@ -50,7 +53,9 @@ class Map
           when '*'
             @block.draw(x * 30 - @window.x, y * 30 - @window.y, 1)
           when '?'
-            draw_qblock(x, y)
+            draw_qblock(x, y, '?')
+          when '-'
+            draw_qblock(x, y, '-')
           when '$'
             draw_coin(x, y)
           when '|'
@@ -63,19 +68,34 @@ class Map
   end
 
   def obsticle? x, y
-    if @tiles[x / 30][y / 30] == '.'
-      false
-    elsif @tiles[x / 30][y / 30] == '$'
-      collect_coin(x,y)
-      false
-    else
-      true
+    x /= 30
+    y /= 30
+    case @tiles[x][y]
+      when '.'
+        false
+      when '$'
+        collect_coin(x,y)
+        false
+      when '?'
+        if @window.mario.y / 30 == y and @window.mario.y >= y * 30
+          shroom = @window.mushrooms.select do |shroom|
+            (shroom.x == x * 30) and
+            (shroom.y == (y - 1) * 30)
+          end
+          shroom.first.active = true
+          @tiles[x][y] = '-'
+        end
+        true
+      when '-'
+        true
+      else
+        true
     end
   end
 
   def collect_coin x, y
     @collect_coin_sound.play 0.5
     @score += 100
-    @tiles[x / 30][y / 30] = '.'
+    @tiles[x][y] = '.'
   end
 end

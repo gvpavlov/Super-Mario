@@ -5,7 +5,7 @@ require 'goomba'
 require 'mushroom'
 
 class Game < Gosu::Window
-  attr_reader :x, :y, :frame
+  attr_reader :x, :y, :frame, :mario
   attr_accessor :mushrooms, :goombas
 
   def initialize
@@ -21,7 +21,6 @@ class Game < Gosu::Window
     @x = 0
     @y = 90
     @map = Map.new self
-    @mario = Mario.new(self, 90, 420, @map)
     @start_time = Time.now
     @frame = 0
     @mushrooms = []
@@ -42,6 +41,9 @@ class Game < Gosu::Window
       @map.width.times do |x|
         case @map.tiles[x][y]
           when 'm'
+            @mario = Mario.new(self, x * 30, y * 30, @map)
+            @map.tiles[x][y] = '.'
+          when 's'
             mushrooms << Mushroom.new(self, x * 30, y * 30, @map)
             @map.tiles[x][y] = '.'
           when 'g'
@@ -62,16 +64,17 @@ class Game < Gosu::Window
     end
     @map.update
     @mario.update unless @mario.dead
-    @goombas.each do |g|
-      if g.dead
-        if (Time.now - g.time_of_death) > 2
-          @goombas.delete(g)
+    @goombas.each do |goomba|
+      if goomba.dead
+        if (Time.now - goomba.time_of_death) > 2
+          @goombas.delete(goomba)
         end
       else
-        g.update
+        goomba.update
       end
     end
-    @mushrooms.each { |m| m.update }
+    #@mushrooms.select(&:active).each(&:update)
+    @mushrooms.each { |mushroom| mushroom.update if mushroom.active}
     # Camera 'follows' mario, but doesn't exceed map boundaries.
     @x = [[@mario.x - @width / 2, 0].max, @map.width * 30 - @width].min
   end
@@ -91,8 +94,8 @@ class Game < Gosu::Window
     @font.draw("Score: " + @map.score.to_s, 760, 0, 100, 1.0, 1.0, 0xff808080)
     @map.draw
     @mario.draw
-    @goombas.each { |g| g.draw }
-    @mushrooms.each { |m| m.draw }
+    @goombas.each { |goomba| goomba.draw }
+    @mushrooms.each { |mushroom| mushroom.draw if mushroom.active }
   end
 
   def time

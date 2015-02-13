@@ -1,10 +1,13 @@
 require 'unit'
 
 class Mushroom < Unit
+  attr_accessor :active
+  
   def initialize window, x, y, map
     super(window, x, y, map, 30)
     @mushroom = Gosu::Image.new(window, File.dirname(__FILE__) +
                                           "/media/mushroom.png", true)
+    @active = false
   end
 
   def update
