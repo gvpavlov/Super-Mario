@@ -41,12 +41,12 @@ class Map
 
   def draw_coin x, y
     f = @frame % 3
-    @coin[f].draw(x * 30 - @window.x - 2.5, y * 30, 1)
+    @coin[f].draw(x * 30 - @window.x - 2.5, y * 30 - @window.y, 1)
   end
 
   def draw_qblock x, y
     f = @frame % 3
-    @question_block[f].draw(x * 30 - @window.x, y * 30, 1)
+    @question_block[f].draw(x * 30 - @window.x, y * 30 - @window.y, 1)
   end
 
   def draw
@@ -54,17 +54,17 @@ class Map
       @width.times do |x|
         case tiles[x][y]
           when '='
-            @ground.draw(x * 30 - @window.x, y * 30, 1)
+            @ground.draw(x * 30 - @window.x, y * 30 - @window.y, 1)
           when '*'
-            @block.draw(x * 30 - @window.x, y * 30, 1)
+            @block.draw(x * 30 - @window.x, y * 30 - @window.y, 1)
           when '?'
             draw_qblock(x, y)
           when '$'
             draw_coin(x, y)
           when '|'
-            @pipe.draw(x * 30 - @window.x, y * 30, 1)
+            @pipe.draw(x * 30 - @window.x, y * 30 - @window.y, 1)
           when '/'
-            @pipe_lower.draw(x * 30 - @window.x, y * 30, 1)
+            @pipe_lower.draw(x * 30 - @window.x, y * 30 - @window.y, 1)
         end        
       end
     end

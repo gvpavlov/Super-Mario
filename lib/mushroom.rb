@@ -13,9 +13,9 @@ class Mushroom < Unit
 
   def draw
     if @direction == :right
-      @mushroom.draw(@x - @window.x, @y, 1)
+      @mushroom.draw(@x - @window.x, @y - @window.y, 1)
     else
-      @mushroom.draw(@x + @width - @window.x, @y, 1, -1, 1)
+      @mushroom.draw(@x + @width - @window.x, @y - @window.y, 1, -1, 1)
     end
   end
 end

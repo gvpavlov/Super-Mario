@@ -99,18 +99,26 @@ class Mario < Unit
       image = @moving ? @mario[f] : @mario[5]
     end
     if @direction == :right
-      image.draw(@x - @window.x, @y, 1)
+      image.draw(@x - @window.x, @y - @window.y, 1)
     else
-      image.draw(@x + @width - @window.x, @y, 1, -1, 1)
+      image.draw(@x + @width - @window.x, @y - @window.y, 1, -1, 1)
     end
   end
 
   def grow
-    @width, @height = 35, 60
+    @height = 60
     @y -= 30
     @mario = Gosu::Image.load_tiles(@window, File.dirname(__FILE__) +
-                                            "/media/big_mario.png",
-                                   @width, @height, true)
+                                      "/media/big_mario.png",
+                                      @width, @height, true)
+  end
+
+  def shrink
+    @height = 30
+    @y += 30
+    @mario = Gosu::Image.load_tiles(@window, File.dirname(__FILE__) +
+                                      "/media/little_mario.png",
+                                      @width, @height, true)
   end
   # TODO: Can cause draw to fail because it's not an array.
   def death

@@ -5,7 +5,7 @@ require 'goomba'
 require 'mushroom'
 
 class Game < Gosu::Window
-  attr_reader :x, :frame, :mushrooms, :goombas
+  attr_reader :x, :y, :frame, :mushrooms, :goombas
 
   def initialize
     super @width = 900, @height = 480, false
@@ -16,8 +16,9 @@ class Game < Gosu::Window
     @song = Gosu::Song.new(self, File.dirname(__FILE__) +
                                             "/lib/media/music.ogg")
     @x = 0
+    @y = 90
     @map = Map.new self
-    @mario = Mario.new(self, 90, 300, @map)
+    @mario = Mario.new(self, 90, 420, @map)
     @start_time = Time.now
     @frame = 0
     fill_units
