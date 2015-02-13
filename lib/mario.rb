@@ -22,6 +22,7 @@ class Mario < Unit
     @moving = false
     move
     jump
+    die if (@y + @height) == 570
   end
 
   def move
@@ -96,11 +97,6 @@ class Mario < Unit
   def goomba
     @window.goombas.each do |goomba|
       if touches?(goomba.x, goomba.y) and (not goomba.dead)
-        # kill goomba if mario is ontop
-        puts @y
-        puts @height
-        puts (@y + @height)
-        puts goomba.y
         if (@y + @height) == goomba.y
           goomba.dead = true
           goomba.time_of_death = Time.now

@@ -1,5 +1,5 @@
 class Map
-  attr_reader :width, :height, :tiles, :score
+  attr_accessor :width, :height, :tiles, :score
 
   def initialize window
     @block = Gosu::Image.new(window, File.dirname(__FILE__) +
@@ -23,16 +23,8 @@ class Map
     @window = window
     @score = 0
     @frame = 0
-    # read map from file
-    # remove the \n regerated through #readlines
-    lines = File.readlines("lib/media/map.txt").map { |line| line.strip }
-    @height = lines.size
-    @width = lines[0].size
-    @tiles = Array.new(@width) do |x|
-      Array.new(@height) do |y|
-        lines[y][x]
-      end
-    end
+    
+    @tiles = [[]]
   end
 
   def update
