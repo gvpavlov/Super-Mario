@@ -1,37 +1,31 @@
-class Map
-  attr_accessor :width, :height, :tiles, :score
+require 'core/map'
+
+class MapGUI < Map
 
   def initialize window
+    super(window)
     @block = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/gui/media/block.png", true)
+                                            "/media/block.png", true)
     @ground = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/gui/media/ground.png", true)
+                                            "/media/ground.png", true)
     @pipe = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/gui/media/pipe.png", true)
+                                            "/media/pipe.png", true)
     @pole_head = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/gui/media/pole_head.png", true)
+                                            "/media/pole_head.png", true)
     @pole = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/gui/media/pole_foundation.png", true)
+                                            "/media/pole_foundation.png", true)
     @pipe_lower = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/gui/media/pipe_lower.png", true)
+                                            "/media/pipe_lower.png", true)
     @mushroom = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/gui/media/mushroom.png", true)
+                                            "/media/mushroom.png", true)
     @question_block = Gosu::Image.load_tiles(window, File.dirname(__FILE__) +
-                                              "/gui/media/question_block.png",
+                                              "/media/question_block.png",
                                                 30, 30, true)
     @coin = Gosu::Image.load_tiles(window, File.dirname(__FILE__) +
-                                              "/gui/media/coin.png",
+                                              "/media/coin.png",
                                                 35, 30, true)
     @collect_coin_sound = Gosu::Sample.new(window, File.dirname(__FILE__) +
-                                            "/gui/media/collect_coin_sound.ogg")
-    @window = window
-    @score = 0
-    @frame = 0
-    @tiles = [[]]
-  end
-
-  def update
-    @frame += 1 if @window.frame % 20 == 0
+                                            "/media/collect_coin_sound.ogg")
   end
 
   def draw_coin x, y
@@ -73,42 +67,5 @@ class Map
         end        
       end
     end
-  end
-
-  def obsticle? x, y
-    x /= 30
-    y /= 30
-    case @tiles[x][y]
-      when '.'
-        false
-      when '$'
-        collect_coin(x,y)
-        false
-      when '?'
-        if @window.mario.y / 30 == y and @window.mario.y >= y * 30
-          shroom = @window.mushrooms.select do |shroom|
-            (shroom.x == x * 30) and
-            (shroom.y == (y - 1) * 30)
-          end
-          shroom.first.active = true
-          @tiles[x][y] = '-'
-        end
-        true
-      when '-'
-        true
-      when '^'
-        if @window.mario.x == x * 30 
-          @window.won = true
-        end
-        false
-      else
-        true
-    end
-  end
-
-  def collect_coin x, y
-    @collect_coin_sound.play 0.5
-    @score += 100
-    @tiles[x][y] = '.'
   end
 end

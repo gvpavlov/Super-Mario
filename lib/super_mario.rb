@@ -1,6 +1,6 @@
 require 'gosu'
-require 'mario'
-require 'map'
+require 'gui/mario_gui'
+require 'gui/map_gui'
 require 'gui/goomba_gui'
 require 'gui/mushroom_gui'
 
@@ -18,9 +18,11 @@ class Game < Gosu::Window
                                             "/gui/media/music.ogg")
     @game_over_sound = Gosu::Song.new(self, File.dirname(__FILE__) +
                                             "/gui/media/game_over_sound.ogg")
+    @win_sound = Gosu::Song.new(self, File.dirname(__FILE__) +
+                                            "/gui/media/win_sound.ogg")
     @x = 0
     @y = 90
-    @map = Map.new self
+    @map = MapGUI.new self
     @start_time = Time.now
     @frame = 0
     @mushrooms = []
@@ -43,7 +45,7 @@ class Game < Gosu::Window
       @map.width.times do |x|
         case @map.tiles[x][y]
           when 'm'
-            @mario = Mario.new(self, x * 30, y * 30, @map)
+            @mario = MarioGUI.new(self, x * 30, y * 30, @map)
             @map.tiles[x][y] = '.'
           when 's'
             mushrooms << MushroomGUI.new(self, x * 30, y * 30, @map)
@@ -61,6 +63,8 @@ class Game < Gosu::Window
     if @mario.dead
       @song.stop if @song.playing?
       @game_over_sound.play
+    elsif @won
+      @win_sound.play(false)
     else
       @song.play(true)
     end
