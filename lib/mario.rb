@@ -8,6 +8,8 @@ class Mario < Unit
                                       @width, @height, true)
     @jump_sound = Gosu::Sample.new(@window, File.dirname(__FILE__) +
                                             "/media/jump_sound.ogg")
+    @power_up_sound = Gosu::Sample.new(@window, File.dirname(__FILE__) +
+                                            "/media/power_up_sound.ogg")
     @frame = 0
     @moving = false
   end
@@ -108,6 +110,7 @@ class Mario < Unit
   def grow
     @height = 60
     @y -= 30
+    @power_up_sound.play
     @mario = Gosu::Image.load_tiles(@window, File.dirname(__FILE__) +
                                       "/media/big_mario.png",
                                       @width, @height, true)
