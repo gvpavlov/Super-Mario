@@ -97,7 +97,9 @@ class Map
       when '-'
         true
       when '^'
-        @window.won = true
+        if @window.mario.x == x * 30 
+          @window.won = true
+        end
         false
       else
         true

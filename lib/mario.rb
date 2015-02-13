@@ -12,6 +12,8 @@ class Mario < Unit
                                             "/media/jump_sound.ogg")
     @power_up_sound = Gosu::Sample.new(@window, File.dirname(__FILE__) +
                                             "/media/power_up_sound.ogg")
+    @shrink = Gosu::Sample.new(@window, File.dirname(__FILE__) +
+                                            "/media/shrink.ogg")
     @frame = @invincible = 0
     @moving = @dead = false
   end
@@ -100,9 +102,11 @@ class Mario < Unit
       if touches?(goomba.x, goomba.y) and (not goomba.dead)
         if (@y + @height) == goomba.y
           @map.score += 300
+          @velocity = 8
           goomba.dead = true
           goomba.time_of_death = Time.now
         elsif @height == 60
+          @shrink.play
           shrink
         else
           die

@@ -60,12 +60,12 @@ class Game < Gosu::Window
     @frame += 1
     if @mario.dead
       @song.stop if @song.playing?
-      @game_over_sound.play(false)
+      @game_over_sound.play
     else
       @song.play(true)
     end
     @map.update
-    @mario.update unless @mario.dead
+    @mario.update unless @mario.dead or @won
     @goombas.each do |goomba|
       if goomba.dead
         if (Time.now - goomba.time_of_death) > 2
@@ -75,8 +75,8 @@ class Game < Gosu::Window
         goomba.update
       end
     end
-    #@mushrooms.select(&:active).each(&:update)
-    @mushrooms.each { |mushroom| mushroom.update if mushroom.active}
+    @mushrooms.select(&:active).each(&:update)
+    #@mushrooms.each { |mushroom| mushroom.update if mushroom.active}
     # Camera 'follows' mario, but doesn't exceed map boundaries.
     @x = [[@mario.x - @width / 2, 0].max, @map.width * 30 - @width].min
   end
@@ -92,10 +92,13 @@ class Game < Gosu::Window
 
   def draw
     @background.draw(0, 0, 0)
+    if @mario.dead
+      @font.draw("GAME OVER", 300, 90, 100, 3, 3, 0xff808080)
+    end
     if @won
-      @font.draw("You've won!", 300, 0, 100, 3, 3, 0xff808080)
-      @font.draw("Score: " + @map.score.to_s, 270, 90, 100, 2, 2, 0xff808080)
-      @font.draw("Time: %0.2d:%0.2d" % [@minute, @seconds], 420, 90, 100, 2, 2, 0xff808080)
+      @font.draw("You win!", 330, 0, 100, 3, 3, 0xff808080)
+      @font.draw("Score: " + @map.score.to_s, 240, 90, 100, 2, 2, 0xff808080)
+      @font.draw("Time: %0.2d:%0.2d" % [@minute, @seconds], 450, 90, 100, 2, 2, 0xff808080)
     else
       @font.draw("#{time}", 40, 0, 100, 1.0, 1.0, 0xff808080)
       @font.draw("Score: " + @map.score.to_s, 760, 0, 100, 1, 1, 0xff808080)
