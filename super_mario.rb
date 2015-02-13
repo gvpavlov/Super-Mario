@@ -36,7 +36,7 @@ class Game < Gosu::Window
     @frame += 1
     @song.play(true)
     @map.update
-    @mario.update
+    @mario.update unless @mario.dead
     @goombas.each do |g|
       if g.dead
         if (Time.now - g.time_of_death) > 2

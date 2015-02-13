@@ -12,12 +12,13 @@ class Mario < Unit
                                             "/media/jump_sound.ogg")
     @power_up_sound = Gosu::Sample.new(@window, File.dirname(__FILE__) +
                                             "/media/power_up_sound.ogg")
-    @frame = 0
+    @frame = @invincible = 0
     @moving = @dead = false
   end
 
   def update
     @frame += 1 if @window.frame % 5 == 0
+    @invincible -= 1 unless @invincible == 0
     @moving = false
     move
     jump
@@ -80,7 +81,7 @@ class Mario < Unit
 
   def touch_unit?
     mushroom
-    goomba
+    goomba unless @invincible > 0
   end
 
   def mushroom
@@ -96,7 +97,11 @@ class Mario < Unit
     @window.goombas.each do |goomba|
       if touches?(goomba.x, goomba.y) and (not goomba.dead)
         # kill goomba if mario is ontop
-        if (@y + 30) == goomba.y
+        puts @y
+        puts @height
+        puts (@y + @height)
+        puts goomba.y
+        if (@y + @height) == goomba.y
           goomba.dead = true
           goomba.time_of_death = Time.now
         elsif @height == 60
@@ -109,20 +114,28 @@ class Mario < Unit
   end
 
   def touches? x, y
-    ((@x - x).abs <= 30) and ((@y - y).abs <= 30)
+    if @height == 30
+      ((@x - x).abs <= 30) and ((@y - y).abs <= 30)
+    else
+      ((@x - x).abs <= 30) and (((@y - y).abs <= 30) or ((@y + @height) == y))
+    end
   end
 
   def draw
-    f = @frame % 3
-    if @velocity != 0
-      image = @mario[4]
+    if @dead
+      @mario.draw(@x - @window.x, @y - @window.y, 1)
     else
-      image = @moving ? @mario[f] : @mario[5]
-    end
-    if @direction == :right
-      image.draw(@x - @window.x, @y - @window.y, 1)
-    else
-      image.draw(@x + @width - @window.x, @y - @window.y, 1, -1, 1)
+      f = @frame % 3
+      if @velocity != 0
+        image = @mario[4]
+      else
+        image = @moving ? @mario[f] : @mario[5]
+      end
+      if @direction == :right
+        image.draw(@x - @window.x, @y - @window.y, 1)
+      else
+        image.draw(@x + @width - @window.x, @y - @window.y, 1, -1, 1)
+      end
     end
   end
 
@@ -138,12 +151,14 @@ class Mario < Unit
   def shrink
     @height = 30
     @y += 30
+    @invincible = 60
     @mario = Gosu::Image.load_tiles(@window, File.dirname(__FILE__) +
                                       "/media/little_mario.png",
                                       @width, @height, true)
   end
   # TODO: Can cause draw to fail because it's not an array.
   def die
+    @dead = true
     @mario = Gosu::Image.new(@window, File.dirname(__FILE__) +
                                   "/media/mario_dies.png", true)
   end
