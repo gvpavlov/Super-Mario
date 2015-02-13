@@ -1,6 +1,8 @@
 require 'unit'
 
 class Mario < Unit
+  attr_reader :dead
+
   def initialize window, x, y, map
     super(window, x, y, map, 35, 30)
     @mario = Gosu::Image.load_tiles(@window, File.dirname(__FILE__) +
@@ -11,7 +13,7 @@ class Mario < Unit
     @power_up_sound = Gosu::Sample.new(@window, File.dirname(__FILE__) +
                                             "/media/power_up_sound.ogg")
     @frame = 0
-    @moving = false
+    @moving = @dead = false
   end
 
   def update
@@ -78,6 +80,7 @@ class Mario < Unit
 
   def touch_unit?
     mushroom
+    goomba
   end
 
   def mushroom
@@ -87,6 +90,22 @@ class Mario < Unit
         @window.mushrooms.delete(mushroom)
       end
     end
+  end
+
+  def goomba
+    @window.goombas.each do |goomba|
+      if touches?(goomba.x, goomba.y) and (not goomba.dead)
+        # kill goomba if mario is ontop
+        if (@y + 30) == goomba.y
+          goomba.dead = true
+          goomba.time_of_death = Time.now
+        elsif @height == 60
+          shrink
+        else
+          die
+        end
+      end
+    end   
   end
 
   def touches? x, y
@@ -124,7 +143,7 @@ class Mario < Unit
                                       @width, @height, true)
   end
   # TODO: Can cause draw to fail because it's not an array.
-  def death
+  def die
     @mario = Gosu::Image.new(@window, File.dirname(__FILE__) +
                                   "/media/mario_dies.png", true)
   end

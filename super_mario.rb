@@ -37,7 +37,15 @@ class Game < Gosu::Window
     @song.play(true)
     @map.update
     @mario.update
-    @goombas.each { |g| g.update }
+    @goombas.each do |g|
+      if g.dead
+        if (Time.now - g.time_of_death) > 2
+          @goombas.delete(g)
+        end
+      else
+        g.update
+      end
+    end
     @mushrooms.each { |m| m.update }
     # Camera 'follows' mario, but doesn't exceed map boundaries.
     @x = [[@mario.x - @width / 2, 0].max, @map.width * 30 - @width].min
