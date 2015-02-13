@@ -1,4 +1,4 @@
-require 'unit'
+require 'core/unit'
 
 class Mario < Unit
   attr_reader :dead
@@ -6,14 +6,14 @@ class Mario < Unit
   def initialize window, x, y, map
     super(window, x, y, map, 35, 30)
     @mario = Gosu::Image.load_tiles(@window, File.dirname(__FILE__) +
-                                      "/media/little_mario.png",
+                                      "/gui/media/little_mario.png",
                                       @width, @height, true)
     @jump_sound = Gosu::Sample.new(@window, File.dirname(__FILE__) +
-                                            "/media/jump_sound.ogg")
+                                            "/gui/media/jump_sound.ogg")
     @power_up_sound = Gosu::Sample.new(@window, File.dirname(__FILE__) +
-                                            "/media/power_up_sound.ogg")
+                                            "/gui/media/power_up_sound.ogg")
     @shrink = Gosu::Sample.new(@window, File.dirname(__FILE__) +
-                                            "/media/shrink.ogg")
+                                            "/gui/media/shrink.ogg")
     @frame = @invincible = 0
     @moving = @dead = false
   end
@@ -146,7 +146,7 @@ class Mario < Unit
     @y -= 30
     @power_up_sound.play
     @mario = Gosu::Image.load_tiles(@window, File.dirname(__FILE__) +
-                                      "/media/big_mario.png",
+                                      "/gui/media/big_mario.png",
                                       @width, @height, true)
   end
 
@@ -155,13 +155,13 @@ class Mario < Unit
     @y += 30
     @invincible = 60
     @mario = Gosu::Image.load_tiles(@window, File.dirname(__FILE__) +
-                                      "/media/little_mario.png",
+                                      "/gui/media/little_mario.png",
                                       @width, @height, true)
   end
-  # TODO: Can cause draw to fail because it's not an array.
+  
   def die
     @dead = true
     @mario = Gosu::Image.new(@window, File.dirname(__FILE__) +
-                                  "/media/mario_dies.png", true)
+                                  "/gui/media/mario_dies.png", true)
   end
 end

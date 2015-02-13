@@ -3,27 +3,27 @@ class Map
 
   def initialize window
     @block = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/media/block.png", true)
+                                            "/gui/media/block.png", true)
     @ground = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/media/ground.png", true)
+                                            "/gui/media/ground.png", true)
     @pipe = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/media/pipe.png", true)
+                                            "/gui/media/pipe.png", true)
     @pole_head = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/media/pole_head.png", true)
+                                            "/gui/media/pole_head.png", true)
     @pole = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/media/pole_foundation.png", true)
+                                            "/gui/media/pole_foundation.png", true)
     @pipe_lower = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/media/pipe_lower.png", true)
+                                            "/gui/media/pipe_lower.png", true)
     @mushroom = Gosu::Image.new(window, File.dirname(__FILE__) +
-                                            "/media/mushroom.png", true)
+                                            "/gui/media/mushroom.png", true)
     @question_block = Gosu::Image.load_tiles(window, File.dirname(__FILE__) +
-                                              "/media/question_block.png",
+                                              "/gui/media/question_block.png",
                                                 30, 30, true)
     @coin = Gosu::Image.load_tiles(window, File.dirname(__FILE__) +
-                                              "/media/coin.png",
+                                              "/gui/media/coin.png",
                                                 35, 30, true)
     @collect_coin_sound = Gosu::Sample.new(window, File.dirname(__FILE__) +
-                                            "/media/collect_coin_sound.ogg")
+                                            "/gui/media/collect_coin_sound.ogg")
     @window = window
     @score = 0
     @frame = 0

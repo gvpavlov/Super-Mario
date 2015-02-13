@@ -1,4 +1,4 @@
-require 'lib/core/goomba'
+require 'core/goomba'
 
 class GoombaGUI < Goomba
   def initialize window, x, y, map

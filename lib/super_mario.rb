@@ -2,7 +2,7 @@ require 'gosu'
 require 'mario'
 require 'map'
 require 'gui/goomba_gui'
-require 'mushroom'
+require 'gui/mushroom_gui'
 
 class Game < Gosu::Window
   attr_reader :x, :y, :frame, :mario
@@ -12,12 +12,12 @@ class Game < Gosu::Window
     super @width = 900, @height = 480, false
     self.caption = "Super Mario"
     @background = Gosu::Image.new(self, File.dirname(__FILE__) +
-                                            "/media/background.png", true)
+                                            "/gui/media/background.png", true)
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
     @song = Gosu::Song.new(self, File.dirname(__FILE__) +
-                                            "/media/music.ogg")
+                                            "/gui/media/music.ogg")
     @game_over_sound = Gosu::Song.new(self, File.dirname(__FILE__) +
-                                            "/media/game_over_sound.ogg")
+                                            "/gui/media/game_over_sound.ogg")
     @x = 0
     @y = 90
     @map = Map.new self
@@ -30,7 +30,7 @@ class Game < Gosu::Window
 
     # read map from file
     # remove the \n regerated through #readlines
-    lines = File.readlines(File.dirname(__FILE__) + "/media/map.txt").map { |line| line.strip }
+    lines = File.readlines(File.dirname(__FILE__) + "/gui/media/map.txt").map { |line| line.strip }
     @map.height = lines.size
     @map.width = lines[0].size
     @map.tiles = Array.new(@map.width) do |x|
@@ -46,10 +46,10 @@ class Game < Gosu::Window
             @mario = Mario.new(self, x * 30, y * 30, @map)
             @map.tiles[x][y] = '.'
           when 's'
-            mushrooms << Mushroom.new(self, x * 30, y * 30, @map)
+            mushrooms << MushroomGUI.new(self, x * 30, y * 30, @map)
             @map.tiles[x][y] = '.'
           when 'g'
-            goombas << Goomba.new(self, x * 30, y * 30, @map)
+            goombas << GoombaGUI.new(self, x * 30, y * 30, @map)
             @map.tiles[x][y] = '.'
         end
       end

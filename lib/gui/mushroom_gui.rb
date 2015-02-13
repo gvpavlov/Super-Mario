@@ -1,17 +1,12 @@
-require 'unit'
+require 'core/mushroom'
 
-class Mushroom < Unit
+class MushroomGUI < Mushroom
   attr_accessor :active
   
   def initialize window, x, y, map
-    super(window, x, y, map, 30)
+    super(window, x, y, map)
     @mushroom = Gosu::Image.new(window, File.dirname(__FILE__) +
                                           "/media/mushroom.png", true)
-    @active = false
-  end
-
-  def update
-    super
   end
 
   def draw
