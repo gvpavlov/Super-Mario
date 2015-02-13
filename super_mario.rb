@@ -76,7 +76,6 @@ class Game < Gosu::Window
       end
     end
     @mushrooms.select(&:active).each(&:update)
-    #@mushrooms.each { |mushroom| mushroom.update if mushroom.active}
     # Camera 'follows' mario, but doesn't exceed map boundaries.
     @x = [[@mario.x - @width / 2, 0].max, @map.width * 30 - @width].min
   end
