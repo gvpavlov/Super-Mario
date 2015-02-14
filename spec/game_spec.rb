@@ -15,7 +15,7 @@ describe Game do
     MarioGUI.new(game, 900, 30, map)
   end
 
-  describe "#new" do
+  describe "#initialize" do
 
     it "loads a game object" do
       expect(game.is_a? Game).to eq true
