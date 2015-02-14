@@ -17,7 +17,7 @@ describe Game do
 
   describe "#initialize" do
 
-    it "loads a game object" do
+    it "creates a game object" do
       expect(game.is_a? Game).to eq true
     end
 

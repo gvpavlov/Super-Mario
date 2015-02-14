@@ -26,6 +26,11 @@ class MapGUI < Map
                                                 35, 30, true)
     @collect_coin_sound = Gosu::Sample.new(window, File.dirname(__FILE__) +
                                             "/media/collect_coin_sound.ogg")
+    @frame = 0
+  end
+
+  def update
+    @frame += 1 if @window.frame % 20 == 0
   end
 
   def draw_coin x, y
@@ -67,5 +72,10 @@ class MapGUI < Map
         end        
       end
     end
+  end
+
+  def collect_coin x, y
+    @collect_coin_sound.play 0.5
+    super(x, y)
   end
 end
