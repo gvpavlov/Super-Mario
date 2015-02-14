@@ -1,7 +1,7 @@
 require 'core/map'
 
 class Unit
-  attr_accessor :x, :y, :velocity, :map
+  attr_accessor :x, :y, :velocity, :map, :height
   attr_reader :width, :direction
 
   def initialize window, x, y, map, width = 35, height = 30, direction = :right

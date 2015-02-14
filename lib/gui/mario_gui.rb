@@ -12,6 +12,12 @@ class MarioGUI < Mario
                                             "/media/power_up_sound.ogg")
     @shrink = Gosu::Sample.new(@window, File.dirname(__FILE__) +
                                             "/media/shrink.ogg")
+    @frame = 0
+  end
+
+  def update
+    @frame += 1 if @window.frame % 5 == 0
+    super
   end
 
   def draw

@@ -1,16 +1,15 @@
 require 'core/unit'
 
 class Mario < Unit
-  attr_reader :dead
+  attr_accessor :invincible, :moving, :velocity, :window, :dead
 
   def initialize window, x, y, map
     super(window, x, y, map, 35, 30)
-    @frame = @invincible = 0
+    @invincible = 0
     @moving = @dead = false
   end
 
   def update
-    @frame += 1 if @window.frame % 5 == 0
     @invincible -= 1 unless @invincible == 0
     @moving = false
     move
