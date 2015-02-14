@@ -12,9 +12,15 @@ describe Unit do
   end
 
   describe "#initialize" do
-    it "initializes unit with arguments" do
+    it "unit on coordinates" do
       expect(unit.x == 60).to eq true
+    end
+
+    it "unit with default width" do
       expect(unit.width == 35).to eq true
+    end
+
+    it "unit in given direction" do
       expect(unit.direction == :right).to eq true
     end
   end
