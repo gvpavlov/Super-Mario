@@ -5,7 +5,7 @@ require 'gui/goomba_gui'
 require 'gui/mushroom_gui'
 
 class Game < Gosu::Window
-  attr_reader :x, :y, :frame, :mario
+  attr_reader :x, :y, :frame, :mario, :seconds
   attr_accessor :mushrooms, :goombas, :won
 
   def initialize
