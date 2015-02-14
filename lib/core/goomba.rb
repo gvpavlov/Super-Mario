@@ -1,7 +1,8 @@
 require 'core/unit'
 
 class Goomba < Unit
-  attr_accessor :dead, :time_of_death
+  attr_accessor :dead, :time_of_death 
+  attr_reader :frame
 
   def initialize window, x, y, map
     super(window, x, y, map, 35, 30, :left)
