@@ -7,7 +7,9 @@
 ```
 $ gem build Super-Mario.gemspec
 $ gem install Super-Mario-0.1.gem
+$ gem install gosu
 ```
+Забележка: [gosu](https://github.com/gosu/gosu) може да изисква да се инсталират пакети, погледнете [тук](https://github.com/gosu/gosu/wiki/Getting-Started-on-Linux)
 
 - 	За да се стартира:
 ```
